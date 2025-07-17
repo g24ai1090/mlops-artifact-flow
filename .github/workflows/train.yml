@@ -1,0 +1,24 @@
+name: Train
+
+on:
+  push:
+    branches: [ classification_branch ]
+
+jobs:
+  train_model:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Train model
+        run: python src/train.py
+      - name: Upload model
+        uses: actions/upload-artifact@v3
+        with:
+          name: model
+          path: model_train.pkl
